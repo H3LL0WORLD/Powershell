@@ -16,26 +16,27 @@ https://twitter.com/H3LL0WORLD
 https://www.youtube.com/channel/UCN1R36uVmYCnfKj-1YTSivA
 #>
 	param (
-		[Parameter (Mandatory)][String] $From,
-		[Parameter (Mandatory)][String] $Password,
-		[Parameter (Mandatory)][String] $To,
-		[Parameter (Mandatory)][String] $Subject,
-		[String] $Body=" ",
-		[String] $Attachment=" "
-		)
-		
+		[String] $From,
+		[String] $Password,
+		[String] $To,
+		[String] $Subject,
+		[String] $Body=' ',
+		[String] $Attachment
+	)
+	if ($host.version -eq "2.0") {
+		$SMTPClient = New-Object Net.Mail.SmtpClient("smtp.gmail.com", 587)
+		$SMTPClient.Credentials = New-Object System.Net.NetworkCredential($From,$Password)
+		$SMTPClient.EnableSsl = $True
+		$SMTPClient.Send($From, $To, $Subject, $Body)
+	} else {
 		$Passwd = ConvertTo-SecureString $Password -AsPlainText -Force
 		$Credentials = New-Object System.Management.Automation.PSCredential($From,$Passwd)
-		$SMTPServer = "smtp.gmail.com"
-		$SMTPPort = "587"
-		
-		if ( $Attachment -eq " ") {
-		Send-MailMessage -From $From -to $To -Subject $Subject `
-		-Body $Body -SmtpServer $SMTPServer -port $SMTPPort -UseSsl `
-		-Credential $Credentials
+		$SMTPServer = 'smtp.gmail.com'
+		$SMTPPort = '587'
+		if (!$Attachment) {
+			Send-MailMessage -From $From -to $To -Subject $Subject -Body $Body -SmtpServer $SMTPServer -port $SMTPPort -UseSsl -Credential $Credentials
 		} else {
-		Send-MailMessage -From $From -to $To -Subject $Subject `
-		-Body $Body -SmtpServer $SMTPServer -port $SMTPPort -UseSsl `
-		-Credential $Credentials -Attachments $Attachment
+			Send-MailMessage -From $From -to $To -Subject $Subject -Body $Body -SmtpServer $SMTPServer -port $SMTPPort -UseSsl -Credential $Credentials -Attachments $Attachment
 		}
+	}
 }
