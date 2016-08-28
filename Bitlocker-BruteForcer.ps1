@@ -62,7 +62,7 @@ function Invoke-Bitlocker-BruteForce {
 		}
 	}
 	Write-Host "[>] " -ForegroundColor $Color.Notificacion -NoNewLine
-	Write-Host "Iniciando ataque por diccionario a la unidad $Unidad con $CantidadPasswords contraseña(s)"
+	Write-Host "Iniciando ataque por diccionario a la unidad $Unidad con $CantidadPasswords contraseÃ±a(s)"
 	$HoraInicio = Get-Date
 	Write-Host "[>] " -ForegroundColor $Color.Notificacion -NoNewLine
 	Write-Host "Inicio: $HoraInicio`n"
@@ -100,8 +100,7 @@ function Invoke-Bitlocker-BruteForce {
 				if ($Duracion.Minutes -ne 0) {Write-Host -NoNewLine "$($Duracion.Minutes) minuto(s), "}
 				if ($Duracion.Seconds -ne 0) {Write-Host -NoNewLine "$($Duracion.Seconds) segundo(s), "}
 				if ($Duracion.Milliseconds -ne 0) {Write-Host "$($Duracion.Milliseconds) milisegundo(s)"}
-				#Invoke-Expression "Get-BitLockerVolume $Unidad"
-				iex "break"
+				Invoke-Expression "break"
 			}
 			$Key = $Null
 		}
