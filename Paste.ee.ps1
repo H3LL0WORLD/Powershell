@@ -27,7 +27,11 @@ function New-Paste
 		$format = "simple",
 		$language = "plain",
 		$description = '',
-		$paste = ''
+		$paste = '',
+		$encrypted = 0,
+		# 'views;'
+		$expire = 0,
+		$format = 'json'
 	)
 	$formats = "json", "xml", "simple"
 	
@@ -36,7 +40,7 @@ function New-Paste
 	$description			= [uri]::EscapeDataString($description);
 	$paste			= [uri]::EscapeDataString($paste);
 
-	$params = "key=$api_key&format=$format&language$language&description=$description&paste=$paste&format=json"
+	$params = "key=$api_key&format=$format&language$language&description=$description&paste=$paste&encrypted=$encrypted&expire=$expire&format=$format"
 	write-host $params
 
 	_Invoke-Request $url $params
