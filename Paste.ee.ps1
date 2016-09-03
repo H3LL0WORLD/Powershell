@@ -34,12 +34,12 @@ function New-Paste
 	)
 	#$formats = "json", "xml", "simple"
 	
-	$url = "http://paste.ee/api"
+	$url = "https://paste.ee/api"
 
 	$description = [uri]::EscapeDataString($description);
 	$paste = [uri]::EscapeDataString($paste);
 
-	$params = "key=$api_key&format=$format&language$language&description=$description&paste=$paste&encrypted=$encrypted&expire=$expire&format=$format"
+	$params = "key=$api_key&format=$format&language=$language&description=$description&paste=$paste&encrypted=$encrypted&expire=$expire&format=$format"
 
 	_Invoke-Request $url $params
 }
