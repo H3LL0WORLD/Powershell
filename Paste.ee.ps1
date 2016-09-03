@@ -32,7 +32,7 @@ function New-Paste
 		# 'views;'
 		$expire = 0
 	)
-	$formats = "json", "xml", "simple"
+	#$formats = "json", "xml", "simple"
 	
 	$url = "http://paste.ee/api"
 
