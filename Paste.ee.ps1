@@ -37,11 +37,10 @@ function New-Paste
 	
 	$url = "http://paste.ee/api"
 
-	$description			= [uri]::EscapeDataString($description);
-	$paste			= [uri]::EscapeDataString($paste);
+	$description = [uri]::EscapeDataString($description);
+	$paste = [uri]::EscapeDataString($paste);
 
 	$params = "key=$api_key&format=$format&language$language&description=$description&paste=$paste&encrypted=$encrypted&expire=$expire&format=$format"
-	write-host $params
 
 	_Invoke-Request $url $params
 }
