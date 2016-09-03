@@ -30,8 +30,7 @@ function New-Paste
 		$paste = '',
 		$encrypted = 0,
 		# 'views;'
-		$expire = 0,
-		$format = 'json'
+		$expire = 0
 	)
 	$formats = "json", "xml", "simple"
 	
