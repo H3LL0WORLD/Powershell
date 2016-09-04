@@ -1,9 +1,12 @@
 function Clean-RunMRU
 {
 	param(
-		[Switch]$All,
-		[Switch]$Last,
-		[String]$Pattern
+		# Clear the full Most-Recently-Used (MRU) list.
+		[Switch] $All,
+		# Remove the last MRU in the list
+		[Switch] $Last,
+		# Remove the MRU that match with the pattern
+		[String] $Pattern
 	)
 	
 	$RunMRUPath = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU\'
