@@ -16,7 +16,7 @@ Izq();
 Enter();
 delay(ds);
 
-Escribir("netsh wlan set hostednetwork mode=allow ssid='" + HOSTEDNETWORK_SSID + "' key='" + HOSTEDNETWORK_KEY + "'");
+Escribir("netsh wlan set hostednetwork mode=allow ssid=\"" + HOSTEDNETWORK_SSID + "\" key=\"" + HOSTEDNETWORK_KEY + "\"");
 delay(ds/2);
 Escribir("netsh wlan start hostednetwork");
 delay(ds);
