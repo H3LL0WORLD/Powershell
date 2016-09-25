@@ -1,6 +1,6 @@
 REM Author: H3ll0Wolrd
 REM Description: I'm too lazy to put something here :)
-REM Requirements: Put the Web Server Address in the code WHITOUT the last'/'
+REM Requirements: Put the Web Server Address in the code WITHOUT the last'/' and WITH 'http://' at the start
 
 DELAY 1000
 GUI r
