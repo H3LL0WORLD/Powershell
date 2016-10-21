@@ -18,7 +18,7 @@ https://www.youtube.com/channel/UCN1R36uVmYCnfKj-1YTSivA
 	param (
 		[String] $From,
 		[String] $Password,
-		[String] $SecurePassword
+		[String] $SecurePassword,
 		[String] $To,
 		[String] $Subject,
 		[String] $Body=' ',
