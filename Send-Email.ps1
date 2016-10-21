@@ -7,7 +7,7 @@ Envia un correo via Gmail
 Enviar correo desde gmail, requiere tener activado el acceso a aplicaciones menos seguras: https://www.google.com/settings/security/lesssecureapps
 
 .EXAMPLE
-Send-Email -From Hola@Mundo.com -Password !P4ss - Subject Ejemplo -Body "Hey!`nEsto es una prueba" -Attachment C:\prueba.txt
+Send-Email -From Hola@Mundo.com -Password !P4ss -To Hello@World.com -Subject Ejemplo -Body "Hey!`nEsto es una prueba" -Attachment C:\prueba.txt
 
 .LINK
 https://www.patreon.com/HelloWorldYT
