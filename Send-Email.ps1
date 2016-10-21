@@ -18,6 +18,7 @@ https://www.youtube.com/channel/UCN1R36uVmYCnfKj-1YTSivA
 	param (
 		[String] $From,
 		[String] $Password,
+		[String] $SecurePassword
 		[String] $To,
 		[String] $Subject,
 		[String] $Body=' ',
@@ -29,7 +30,11 @@ https://www.youtube.com/channel/UCN1R36uVmYCnfKj-1YTSivA
 		$SMTPClient.EnableSsl = $True
 		$SMTPClient.Send($From, $To, $Subject, $Body)
 	} else {
-		$Passwd = ConvertTo-SecureString $Password -AsPlainText -Force
+		if ($Password) {
+			$Passwd = ConvertTo-SecureString $Password -AsPlainText -Force
+		} elseif ($SecurePassword) {
+			$Passwd = ConvertTo-SecureString $SecurePassword
+		}
 		$Credentials = New-Object System.Management.Automation.PSCredential($From,$Passwd)
 		$SMTPServer = 'smtp.gmail.com'
 		$SMTPPort = '587'
