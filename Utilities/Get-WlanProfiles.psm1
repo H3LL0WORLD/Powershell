@@ -9,7 +9,7 @@ Function Get-WLAN_Profiles {
 			'profile_not_found_text' = 'No se encuentra el perfil'
 			'ssid_name_text' 		 = 'Nombre de SSID'
 			'network_type_text' 	 = 'Tipo de red'
-			'authentication_text'	 = 'Autenticación'
+			'authentication_text'	 = 'AutenticaciÃ³n'
 			'encryption_text'	 	 = 'Cifrado'
 			'key_text' 				 = 'Contenido de la clave'
 		}
@@ -100,13 +100,13 @@ Function Get-WLAN_Profiles {
 	}
 
 	if ($WLAN_Profiles.Count -gt 0) {
-		'Total WLAN_Profiles: ' + $WLAN_Profiles.Count | Out-Host
+		'Total WLAN_Profiles: ' + $WLAN_Profiles.Count
 		<#return#> $WLAN_Profiles | Select-Object 		   SSID,
 											 Authentication,
 														Key,
 												 Encryption,
 												NetworkType
 	} else {
-		'No WLAN Profiles found!' | Out-Host
+		'No WLAN Profiles found!'
 	}
 }
