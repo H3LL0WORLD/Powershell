@@ -6,12 +6,10 @@ Function Set-WindowsDefender {
 	H3LL0WORLD
 .EXAMPLE
 	Set-WindowsDefender -Mode Enabled
-	## Description
-	# Enable Windows Defender
+	Enable Windows Defender
 .EXAMPLE
 	Set-WindowsDefender -Mode Disabled
-	## Description
-	#Disable Windows Defender
+	Disable Windows Defender
 #>
 	Param (
 		[ValidateSet('Enabled','Disabled')]
