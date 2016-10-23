@@ -1,4 +1,18 @@
 Function Set-WindowsDefender {
+<#
+.SYNOPSIS
+	Enable/Disable WindowsDefender by using a policy in the register
+.AUTHOR
+	H3LL0WORLD
+.EXAMPLE
+	Set-WindowsDefender -Mode Enabled
+	## Description
+	# Enable Windows Defender
+.EXAMPLE
+	Set-WindowsDefender -Mode Disabled
+	## Description
+	#Disable Windows Defender
+#>
 	Param (
 		[ValidateSet('Enabled','Disabled')]
 		$Mode
