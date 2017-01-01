@@ -1,7 +1,4 @@
-## Invoke-Mimikatz
-###Version mejorada del modulo Invoke-Mimikatz
-####Mejoras:
-- Completamente indetectable (WindowsDefender/Windows10)
+# Exfiltration
 
 ## Get-ChromeDump
 ###Version mejorada del modulo Get-ChromeDump
@@ -11,3 +8,8 @@
 - Dumps individuales (DumpCreds, DumpHistory, DumpDownloads)
 - Hacer el dump incluso si chrome se esta ejecutando
 - Eliminar la dll despues de que el proceso termine
+
+## Invoke-Mimikatz
+###Version mejorada del modulo Invoke-Mimikatz
+####Mejoras:
+- Completamente indetectable (WindowsDefender/Windows10)
