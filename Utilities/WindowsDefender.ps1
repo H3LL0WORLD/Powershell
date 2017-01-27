@@ -24,15 +24,14 @@ Function Set-WindowsDefender {
 	# Check if admin
 	if (-not ([Bool] (([Security.Principal.WindowsIdentity]::GetCurrent()).Groups -Match 'S-1-5-32-544') -And ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator'))) {
 		Write-Warning "This script must run as a privileged user"
+		break
 	}
 	
 	if ($Mode -eq 'Enabled') {
 		# If 'enabled' delete the value
 		try {
 			Remove-ItemProperty -Path $WindowsDefenderPolicyPath -Name $PolicyName -Force -ErrorAction SilentlyContinue
-		} finally {
-			break
-		}
+		} catch {}
 	} elseif ($Mode -eq 'Disabled') {
 		# Create the key if does not exist
 		if (!(Test-Path $WindowsDefenderPolicyPath)) {
